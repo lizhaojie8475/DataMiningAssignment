@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append("E:\\lizhaojie\\DataMining")
+sys.path.append("E:\\lizhaojie\\DataMiningAssignment")
 import scrapy
 from scrapy.http import Request
 import time
@@ -8,7 +8,7 @@ from Src.spider.textSpider.items import NewsItem
 
 
 SUM_OF_DAYS = 500
-CURRENT_DATE = "2019-11-25"
+CURRENT_DATE = "2011-11-23"
 
 class NewsspiderSpider(scrapy.Spider):
     name = 'newsSpider'
