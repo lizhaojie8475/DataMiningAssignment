@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append("E:\\lizhaojie\\DataMining")
+sys.path.append("E:\\lizhaojie\\DataMiningAssignment")
 import scrapy
 from scrapy.http import Request
 import time
