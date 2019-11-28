@@ -7,8 +7,8 @@ import time
 from Src.spider.textSpider.items import NewsItem
 
 
-SUM_OF_DAYS = 500
-CURRENT_DATE = "2019-11-25"
+SUM_OF_DAYS = 200
+CURRENT_DATE = "2014-3-12"
 
 class NewsspiderSpider(scrapy.Spider):
     name = 'newsSpider'
@@ -25,7 +25,7 @@ class NewsspiderSpider(scrapy.Spider):
         for i in range(SUM_OF_DAYS):
             self.currentTime -= 86400
             dateStr = self.parseDate(time.localtime(self.currentTime))
-            url = "http://www.chinanews.com/scroll-news/%s/news.shtml" % dateStr
+            url = "http://www.chinanews.com/scroll-news/%s/%s/news.shtml" % (self.category, dateStr)
             yield Request(url=url, meta={"time": dateStr})
 
     def parseDate(self, date):
@@ -45,25 +45,25 @@ class NewsspiderSpider(scrapy.Spider):
         return str(year) + '/' + month + day
 
     def parse(self, response):
-        titleSelectors = response.selector.xpath('//*[@id="content_right"]/div[@class = "content_list"]/ul/li')
+        titleSelectors = response.selector.xpath('//*[@id="content_right"]/div[@class="content_list" or @id="news_list"]/ul/li//a[1]')
         for selector in titleSelectors:
-            type = selector.xpath('./div[1]/a[1]/text()').extract_first()
-            title = selector.xpath('./div[2]/a[1]/text()').extract_first()
+            type = self.category
+            title = selector.xpath('./text()').extract_first()
             time = response.meta["time"]
-            url = selector.xpath('./div[2]/a[1]/@href').extract_first()
-            if url == None or str(url).find('http') != -1 :
+            url = selector.xpath('./@href').extract_first()
+            if url == None:
                 continue
-            url = "http://www.chinanews.com" + str(url)
-            if type == self.category:
-                item = NewsItem()
-                item["title"] = title
-                item["type"] = type
-                item["url"] = url
-                item["time"] = time
-                yield Request(url=url, meta={"item": item}, callback=self.parseContent)
+            url = str(url)
+
+            item = NewsItem()
+            item["title"] = title
+            item["type"] = type
+            item["url"] = url
+            item["time"] = time
+            yield Request(url=url, meta={"item": item}, callback=self.parseContent)
 
     def parseContent(self, response):
-        contentSelector = response.xpath('//*[@id="cont_1_1_2"]/div[@class = "left_zw"]/p/text()')
+        contentSelector = response.xpath('//div[@class = "left_zw"]//p/text()')
         paragraphs = filter(lambda x: len(x) >= 25, contentSelector.extract())
         paragraphs = map(lambda x: x.strip().replace(r"\s+", ""), paragraphs)
         content = "".join(paragraphs)
