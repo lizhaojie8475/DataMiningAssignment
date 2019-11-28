@@ -7,8 +7,8 @@ import time
 from Src.spider.textSpider.items import NewsItem
 
 
-SUM_OF_DAYS = 200
-CURRENT_DATE = "2014-3-12"
+SUM_OF_DAYS = 1000
+CURRENT_DATE = "2017-3-3"
 
 class NewsspiderSpider(scrapy.Spider):
     name = 'newsSpider'
@@ -53,7 +53,10 @@ class NewsspiderSpider(scrapy.Spider):
             url = selector.xpath('./@href').extract_first()
             if url == None:
                 continue
-            url = str(url)
+            if str(url).startswith("http"):
+                url = str(url)
+            else:
+                url = "http://www.chinanews.com" + str(url)
 
             item = NewsItem()
             item["title"] = title

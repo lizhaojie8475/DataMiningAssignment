@@ -8,6 +8,6 @@
 scrapy crawl newsSpider -a category=tw
 scrapy crawl newsSpider -a category=ga
 ::scrapy crawl newsSpider -a category=yl
-::scrapy crawl newsSpider -a category=ÌåÓý
+::scrapy crawl newsSpider -a category=ty
 
 pause
