@@ -8,7 +8,7 @@ from Src.spider.textSpider.items import NewsItem
 
 
 SUM_OF_DAYS = 1000
-CURRENT_DATE = "2017-3-3"
+CURRENT_DATE = "2014-6-6"
 
 class NewsspiderSpider(scrapy.Spider):
     name = 'newsSpider'
