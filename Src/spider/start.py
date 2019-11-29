@@ -1,3 +1,4 @@
 from scrapy.cmdline import execute
 
-execute(["scrapy", "crawl", "newsSpider", "-a", "category=台湾"])
+execute(["scrapy", "crawl", "newsSpider", "-a", "category=auto"])
+
