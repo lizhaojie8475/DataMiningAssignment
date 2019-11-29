@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append("E:\\lizhaojie\\DataMiningAssignment")
+import os
+import re
+pwd = os.path.dirname(__file__)
+fileList = re.split(r"/|\\", pwd)
+sys.path.append("\\".join(fileList))
+
 import scrapy
 from scrapy.http import Request
 import time
 from Src.spider.textSpider.items import NewsItem
 
 
-SUM_OF_DAYS = 1000
+SUM_OF_DAYS = 0
 CURRENT_DATE = "2014-6-6"
 
 class NewsspiderSpider(scrapy.Spider):
